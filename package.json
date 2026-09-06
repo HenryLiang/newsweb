@@ -9,10 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@prisma/client": "^6.19.3",
     "isomorphic-dompurify": "^2.19.1",
     "next": "^15.3.0",
+    "prisma": "^6.19.3",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "tencentcloud-sdk-nodejs-ses": "^4.1.271",
+    "tencentcloud-sdk-nodejs-tms": "^4.1.293",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.0",
@@ -22,5 +27,8 @@
     "postcss": "^8.5.0",
     "tailwindcss": "^4.1.0",
     "typescript": "^5.8.0"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
   }
 }

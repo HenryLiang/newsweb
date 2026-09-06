@@ -4,6 +4,9 @@ import { notFound } from 'next/navigation';
 import DOMPurify from 'isomorphic-dompurify';
 import { getArticleDetail, getArticles } from '@/lib/cms';
 import { ArticleList } from '@/components/ArticleCard';
+import { ArticleActions } from '@/components/user/ArticleActions';
+import { CommentSection } from '@/components/user/CommentSection';
+import { HistoryRecorder } from '@/components/user/HistoryRecorder';
 import { formatDateTime } from '@/lib/format';
 
 export const revalidate = 60;
@@ -72,6 +75,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   return (
     <div className="mx-auto max-w-[900px]">
+      {/* 浏览历史记录:无 UI,仅副作用 */}
+      <HistoryRecorder articleId={article.id} articleTitle={article.title} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -138,7 +143,13 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           className="article-content"
           dangerouslySetInnerHTML={{ __html: sanitized }}
         />
+
+        {/* 点赞/收藏:客户端组件,不影响页面 ISR 缓存 */}
+        <ArticleActions articleId={article.id} articleTitle={article.title} />
       </article>
+
+      {/* 评论区:客户端组件,AI 先审后发 */}
+      <CommentSection articleId={article.id} />
 
       {relatedList.length > 0 && (
         <section className="mt-4 rounded bg-white px-5 pb-2 md:px-8">

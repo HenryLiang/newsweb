@@ -1,6 +1,7 @@
 import Link from 'next/link';
+import { UserMenu } from './user/UserMenu';
 
-/** 顶部蓝条：logo + 搜索框。搜索走 GET /search，纯服务端即可。 */
+/** 顶部蓝条：logo + 搜索框 + 用户菜单。搜索走 GET /search，纯服务端即可。 */
 export function SiteHeader() {
   return (
     <header id="top" className="bg-[var(--brand)]">
@@ -39,6 +40,7 @@ export function SiteHeader() {
             </button>
           </div>
         </form>
+        <UserMenu />
       </div>
     </header>
   );

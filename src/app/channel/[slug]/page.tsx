@@ -4,6 +4,7 @@ import { getChannel } from '@/config/channels';
 import { getArticles } from '@/lib/cms';
 import { ArticleList } from '@/components/ArticleCard';
 import { Pagination } from '@/components/Pagination';
+import { SubscribeButton } from '@/components/user/SubscribeButton';
 
 export const revalidate = 60;
 
@@ -51,6 +52,10 @@ export default async function ChannelPage({
             {result.meta.total} 条
           </span>
         </h1>
+        {/* 要闻频道(无标签)即全部文章,不可订阅 */}
+        {channel.tags.length > 0 && (
+          <SubscribeButton tags={channel.tags} label={channel.name} />
+        )}
       </div>
       <ArticleList articles={result.data} />
       <Pagination
