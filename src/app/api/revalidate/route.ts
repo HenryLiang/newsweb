@@ -29,8 +29,10 @@ export async function POST(request: Request) {
   // 精确刷新：该文章详情 + 所有文章列表/聚合页。
   revalidateTag(`article-${articleId}`);
   revalidateTag('articles');
+  revalidatePath(`/article/${articleId}`);
   revalidatePath('/');
-  // 兜底：分页与次要页面全部按 tag 失效即可，无需逐页 revalidatePath。
+  revalidatePath('/sitemap.xml');
+  // 频道、标签、选题与分页列表共享 articles tag，会一并失效。
 
   return NextResponse.json({ revalidated: true, articleId });
 }
