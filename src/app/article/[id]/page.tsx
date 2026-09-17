@@ -72,6 +72,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     author: article.author ? { '@type': 'Person', name: article.author.name } : undefined,
     publisher: { '@type': 'Organization', name: SITE_NAME },
   };
+  // JSON.stringify 不转义 <，</script> 会逃逸标签；CMS 字符串字段按不可信输入处理
+  const jsonLdHtml = JSON.stringify(jsonLd).replace(/</g, '\\u003c');
 
   return (
     <div className="mx-auto max-w-[900px]">
@@ -79,7 +81,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       <HistoryRecorder articleId={article.id} articleTitle={article.title} />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml }}
       />
       <nav className="mb-2 text-xs text-gray-400">
         <Link href="/" className="hover:text-[var(--brand)]">
